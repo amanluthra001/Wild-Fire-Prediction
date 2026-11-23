@@ -55,10 +55,27 @@ st.set_page_config(
 )
 
 load_dotenv()
-EMAIL_USER = os.getenv("EMAIL_USER")
-EMAIL_PASS = os.getenv("EMAIL_PASS", "").replace(" ", "").strip()
-EMAIL_TO = os.getenv("EMAIL_TO", "amanluthra804@gmail.com")
-OWM_API_KEY = os.getenv("OWM_API_KEY")
+
+def get_secret(key, default=""):
+    # 1. Check Streamlit Cloud st.secrets
+    try:
+        if hasattr(st, "secrets") and key in st.secrets:
+            val = str(st.secrets[key]).strip()
+            if val:
+                return val
+    except Exception:
+        pass
+    # 2. Check local environment variables (.env)
+    env_val = os.getenv(key)
+    if env_val and env_val.strip():
+        return env_val.strip()
+    # 3. Safe fallback default
+    return default
+
+EMAIL_USER = get_secret("EMAIL_USER", "amanluthra804@gmail.com")
+EMAIL_PASS = get_secret("EMAIL_PASS", "hqzqzlpambwbiwzz").replace(" ", "").strip()
+EMAIL_TO = get_secret("EMAIL_TO", "amanluthra804@gmail.com")
+OWM_API_KEY = get_secret("OWM_API_KEY", "caae76bb5f76f7a627a828236780c7d5")
 GEOJSON_PATH = "kelowna_regions2/kelowna_36_regions.geojson"
 DATASET_PATH = "dataset.csv"
 MODELS_DIR = "models2"
@@ -144,10 +161,10 @@ Stay safe & maintain emergency posture!
             server.sendmail(EMAIL_USER, recipient, msg.as_string())
             server.quit()
             return True, f"✅ Live alert email delivered to {recipient}! (Check your Gmail inbox)"
-        except Exception:
-            pass
+        except Exception as e:
+            return False, f"⚠️ Email delivery error: {e}"
 
-    return True, f"✅ Autonomous Alert Dispatched for {recipient}! (Incident Logged & Windows Alert Fired)"
+    return True, f"✅ Autonomous Alert Dispatched for {recipient}! (Incident Logged & Dispatched)"
 
 # -------------------------------------------------------------------------
 # Ultra-Modern Cyber-Tactical Command Center CSS
