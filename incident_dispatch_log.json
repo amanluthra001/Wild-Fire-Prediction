@@ -1,0 +1,26 @@
+[
+  {
+    "timestamp": "2026-11-23 11:47:58",
+    "recipient": "amanluthra804@gmail.com",
+    "sector_id": 14,
+    "probability": 0.94,
+    "severity": "CRITICAL",
+    "status": "DISPATCHED"
+  },
+  {
+    "timestamp": "2026-11-23 11:54:55",
+    "recipient": "amanluthra804@gmail.com",
+    "sector_id": 14,
+    "probability": 0.94,
+    "severity": "CRITICAL",
+    "status": "DISPATCHED"
+  },
+  {
+    "timestamp": "2026-11-23 12:04:50",
+    "recipient": "amanluthra804@gmail.com",
+    "sector_id": 14,
+    "probability": 0.94,
+    "severity": "CRITICAL",
+    "status": "DISPATCHED"
+  }
+]
