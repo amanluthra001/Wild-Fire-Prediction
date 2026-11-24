@@ -550,14 +550,14 @@ class IncidentCommanderCopilot:
             critical = self.tool_get_critical_sectors()
             return (
                 f"🤖 **Incident Commander AI Copilot**\n\n"
-                f"Main operational command assist karne ke liye ready hu. Aap kisi bhi Sector (1 to 36) ka status ya simulation pooch sakte hain.\n\n"
+                f"Operational Command System ready. You can query sector-specific tactical telemetry, flame physics simulation, or deploy tactical response units across Sectors 1 through 36.\n\n"
                 f"{summary}\n\n"
                 f"{critical}\n\n"
-                f"💡 *Aap ye pooch sakte hain:* \n"
-                f"- `Sector 14 ka risk aur status kya hai?`\n"
-                f"- `Critical sectors overview dikhao`\n"
-                f"- `Simulate wind shift for Sector 14`\n"
-                f"- `Dispatch tanker to Sector 14`"
+                f"💡 *Recommended Directives:* \n"
+                f"- `What is the risk and status of Sector 14?`\n"
+                f"- `Show overview of critical threat sectors`\n"
+                f"- `Simulate severe wind shift for Sector 14`\n"
+                f"- `Dispatch CL-415 aerial tanker to Sector 14`"
             )
 
 

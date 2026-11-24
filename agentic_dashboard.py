@@ -966,11 +966,11 @@ with tab_agents:
 # -------------------------------------------------------------------------
 with tab_chat:
     st.markdown("### 💬 Conversational Incident Commander Copilot")
-    st.caption("Interact with the Agentic AI in English or Hinglish. The agent automatically selects and executes tools to answer your command:")
+    st.caption("Interact with the Agentic AI in natural language. The autonomous copilot dynamically reasons and triggers specialized tools to fulfill operational directives:")
     
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = [
-            ("copilot", "Namaste Commander! Main aapka AI Wildfire Operations Copilot hu. Aap mujhse kisi bhi Sector ka status, critical risk analysis, wind propagation simulation, ya resource dispatch ke baare me pooch sakte hain.")
+            ("copilot", "Greetings, Incident Commander. I am your autonomous Wildfire Operations Copilot. You can query me for real-time sector risk profiles, critical anomaly assessments, Rothermel wind propagation simulations, or tactical asset dispatch orders across Sectors 1 to 36.")
         ]
         
     for role, msg in st.session_state.chat_history:
@@ -992,8 +992,8 @@ with tab_chat:
             """, unsafe_allow_html=True)
             
     st.write("")
-    user_input = st.text_input("Aapka Sawal / Command:", placeholder="e.g. Sector 14 ka status batao, Critical sectors overview, ya Simulate wind shift", key="chat_input")
-    send_btn = st.button("🚀 Execute Command / Send")
+    user_input = st.text_input("Operational Query / Directive:", placeholder="e.g. What is the risk and status profile for Sector 14? or Simulate wind shift for Sector 14", key="chat_input")
+    send_btn = st.button("🚀 Execute Directive / Send")
     
     if send_btn and user_input:
         st.session_state.chat_history.append(("user", user_input))
@@ -1006,11 +1006,11 @@ with tab_chat:
     st.markdown("💡 **Quick Commands to Try:**")
     qc1, qc2, qc3, qc4 = st.columns(4)
     if qc1.button("🚨 Critical Sectors"):
-        st.session_state.chat_history.append(("user", "Critical sectors overview dikhao"))
+        st.session_state.chat_history.append(("user", "Show critical threat sectors overview"))
         st.session_state.chat_history.append(("copilot", agent_system.copilot.tool_get_critical_sectors()))
         st.rerun()
     if qc2.button("📍 Sector 14 Deep Dive"):
-        st.session_state.chat_history.append(("user", "Sector 14 ka risk aur status kya hai?"))
+        st.session_state.chat_history.append(("user", "What is the risk and status profile of Sector 14?"))
         st.session_state.chat_history.append(("copilot", agent_system.copilot.tool_get_sector_status(14)))
         st.rerun()
     if qc3.button("🧪 Simulate Wind Shift (45km/h West)"):
