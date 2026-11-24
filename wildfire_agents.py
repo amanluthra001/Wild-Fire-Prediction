@@ -204,9 +204,12 @@ class SentinelAgent:
         return telemetry
 
     def scan_all_sectors(self, telemetry_list: List[Dict[str, Any]], ml_probabilities: Dict[int, float]) -> List[SectorTelemetry]:
+        self.telemetry_cache.clear()
         results = []
         for row in telemetry_list:
             rid = int(row.get("region_id", 0))
+            if rid < 1 or rid > 36:
+                continue
             prob = ml_probabilities.get(rid, 0.0)
             st = self.evaluate_sector(row, prob)
             results.append(st)
@@ -590,9 +593,10 @@ class MultiAgentWildfireSystem:
         cycle_start = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.last_cycle_timestamp = cycle_start
         
-        # Reset active tactical squadrons for current live cycle (prevents infinite unbounded accumulation)
-        self.dispatcher.active_dispatches = []
-        self.dispatcher.active_evacuations = []
+        # Reset active tactical squadrons and telemetry cache for current live cycle
+        self.dispatcher.active_dispatches.clear()
+        self.dispatcher.active_evacuations.clear()
+        self.sentinel.telemetry_cache.clear()
         
         # 1. Perception
         telemetry_results = self.sentinel.scan_all_sectors(telemetry_data, ml_probabilities)

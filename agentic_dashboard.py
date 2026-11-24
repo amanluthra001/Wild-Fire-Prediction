@@ -411,9 +411,10 @@ def load_ml_pipeline():
     return base_models, meta_model, meta_scaler, weights, features
 
 
-@st.cache_resource
 def get_multi_agent_system():
-    return MultiAgentWildfireSystem(high_threshold=HIGH_THRESH)
+    if "agent_system" not in st.session_state:
+        st.session_state.agent_system = MultiAgentWildfireSystem(high_threshold=HIGH_THRESH)
+    return st.session_state.agent_system
 
 
 # -------------------------------------------------------------------------
@@ -475,7 +476,7 @@ def fetch_live_or_fallback_weather(gdf, hist_latest, df_full):
             wd = float(row.get("wind_direction", 240.0))
             precip = float(row.get("precipitation", 0.0))
         else:
-            temp, hum, ws, wd, precip = 25.0, 30.0, 15.0, 260.0, 0.0
+            temp, hum, ws, wd, precip = 5.0, 60.0, 5.0, 240.0, 0.0
             
         weather_dict[rid] = {
             "temperature": temp,
@@ -580,9 +581,9 @@ for _, r in gdf.iterrows():
         wd = sim_wind_dir
         p = 0.0
     else:
-        t = w.get("temperature", 22.0)
-        h = w.get("relative_humidity", 35.0)
-        ws_ms = w.get("wind_speed", 10.0)
+        t = w.get("temperature", 5.0)
+        h = w.get("relative_humidity", 60.0)
+        ws_ms = w.get("wind_speed", 5.0)
         wd = w.get("wind_direction", 200.0)
         p = w.get("precipitation", 0.0)
         
