@@ -459,7 +459,7 @@ def fetch_live_or_fallback_weather(gdf, hist_latest, df_full):
             center_live = None
 
     for _, r in gdf.iterrows():
-        rid = int(r.name) if isinstance(r.name, (int, np.integer)) else int(r.get("region_id", 1))
+        rid = int(r["region_id"]) if "region_id" in r else (int(r.name) + 1)
         if center_live is not None:
             lat_offset = (r.geometry.centroid.y - DEFAULT_CENTER[0]) * 1.5
             temp = round(center_live["temp"] - lat_offset, 1)
@@ -570,7 +570,7 @@ weather_cache = fetch_live_or_fallback_weather(gdf, hist_latest, df_full)
 
 telemetry_records = []
 for _, r in gdf.iterrows():
-    rid = int(r.name) if isinstance(r.name, (int, np.integer)) else int(r.get("region_id", 1))
+    rid = int(r["region_id"]) if "region_id" in r else (int(r.name) + 1)
     w = weather_cache.get(rid, {})
     
     if override_active:
@@ -774,7 +774,7 @@ with tab_map:
             else: return "#10b981"
             
         for _, row in gdf.iterrows():
-            rid = int(row.name) if isinstance(row.name, (int, np.integer)) else int(row.get("region_id", 1))
+            rid = int(row["region_id"]) if "region_id" in row else (int(row.name) + 1)
             prob = ml_probabilities.get(rid, 0.0)
             telemetry = agent_system.sentinel.telemetry_cache.get(rid)
             fill_col = get_color(prob)
