@@ -719,11 +719,12 @@ with c1:
 with c2:
     high_threat_count = cycle_report["anomalies_detected"]
     threat_color = "#dc2626" if high_threat_count > 0 else "#10b981"
-    threat_status = "Action Required" if high_threat_count > 0 else "Safe Envelope"
+    threat_val = f"{high_threat_count} Critical" if high_threat_count > 0 else "0 Threats"
+    threat_status = "Action Required" if high_threat_count > 0 else "All Sectors Safe"
     st.markdown(f"""
     <div class='stat-card' style='border-left: 5px solid {threat_color};'>
         <div class='stat-card-title'>ACTIVE SECTOR THREATS</div>
-        <div class='stat-card-value' style='color:{threat_color};'>{high_threat_count} Critical</div>
+        <div class='stat-card-value' style='color:{threat_color};'>{threat_val}</div>
         <div class='stat-card-sub' style='color:{threat_color};'>{threat_status}</div>
     </div>
     """, unsafe_allow_html=True)
