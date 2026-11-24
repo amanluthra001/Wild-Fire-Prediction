@@ -639,6 +639,8 @@ else:
 # -------------------------------------------------------------------------
 # Run Autonomous Agent Cycle
 # -------------------------------------------------------------------------
+agent_system.dispatcher.active_dispatches.clear()
+agent_system.dispatcher.active_evacuations.clear()
 cycle_report = agent_system.run_autonomous_cycle(telemetry_records, ml_probabilities)
 
 # Trigger Alarm & Email Dispatch on Critical Anomaly Detection
@@ -727,20 +729,24 @@ with c2:
     """, unsafe_allow_html=True)
 with c3:
     dispatched_count = len(cycle_report["active_dispatches"])
+    sq_col = "#d97706" if dispatched_count > 0 else "#10b981"
+    sq_sub = "Air Bombers, Crews & Drones" if dispatched_count > 0 else "Fleet on Standby / Readiness"
     st.markdown(f"""
     <div class='stat-card' style='border-left: 5px solid #f59e0b;'>
         <div class='stat-card-title'>TACTICAL SQUADRONS</div>
-        <div class='stat-card-value' style='color:#d97706;'>{dispatched_count} Active</div>
-        <div class='stat-card-sub'>Air Bombers, Crews & Drones</div>
+        <div class='stat-card-value' style='color:{sq_col};'>{dispatched_count} Active</div>
+        <div class='stat-card-sub' style='color:{sq_col};'>{sq_sub}</div>
     </div>
     """, unsafe_allow_html=True)
 with c4:
     evac_count = len(cycle_report["active_evacuations"])
+    ev_col = "#7c3aed" if evac_count > 0 else "#10b981"
+    ev_sub = "Downwind Buffers Alerted" if evac_count > 0 else "All Zones Clear & Secure"
     st.markdown(f"""
     <div class='stat-card' style='border-left: 5px solid #8b5cf6;'>
         <div class='stat-card-title'>EVACUATION ADVISORIES</div>
-        <div class='stat-card-value' style='color:#7c3aed;'>{evac_count} Zones</div>
-        <div class='stat-card-sub'>Downwind Buffers Alerted</div>
+        <div class='stat-card-value' style='color:{ev_col};'>{evac_count} Zones</div>
+        <div class='stat-card-sub' style='color:{ev_col};'>{ev_sub}</div>
     </div>
     """, unsafe_allow_html=True)
 
