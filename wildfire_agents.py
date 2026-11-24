@@ -382,7 +382,9 @@ class AutonomousDispatcherAgent:
                 "downwind": spread.target_regions
             }
         ))
-        
+        if len(self.incident_log) > 50:
+            self.incident_log = self.incident_log[-50:]
+            
         return dispatches
 
 
@@ -587,6 +589,10 @@ class MultiAgentWildfireSystem:
         """
         cycle_start = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.last_cycle_timestamp = cycle_start
+        
+        # Reset active tactical squadrons for current live cycle (prevents infinite unbounded accumulation)
+        self.dispatcher.active_dispatches = []
+        self.dispatcher.active_evacuations = []
         
         # 1. Perception
         telemetry_results = self.sentinel.scan_all_sectors(telemetry_data, ml_probabilities)
